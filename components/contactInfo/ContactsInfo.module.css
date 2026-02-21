@@ -1,0 +1,38 @@
+.card {
+width: 450px;
+padding: 30px;
+position: relative;
+margin: 25px auto;
+border-radius: 5px;
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+border-left: solid 10px #46d0e9;
+
+}
+
+.icons {
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+position: absolute;
+top: 0;
+bottom: 0;
+right: 10px;
+align-items: center;
+padding: 20px 0;
+}
+
+.card svg {
+    font-size: 25px;
+    color: #46d0e9;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.icons svg:hover{
+    color: #55b955;
+    transform: scale(1.2);
+}
+
+.card div {
+    margin: 10px 0;
+}

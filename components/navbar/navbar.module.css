@@ -1,0 +1,29 @@
+.box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+padding: 20px ;
+height: 80px;
+text-transform: capitalize;
+}
+
+
+.menu {
+display: flex;
+gap: 50px;
+}
+
+
+.menu a svg {
+    font-size: 25px;
+    margin-right: 10px;
+    vertical-align: sub;
+}
+
+
+.active svg {
+    color: rgb(101, 54, 211);
+    
+}

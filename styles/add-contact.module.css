@@ -1,0 +1,59 @@
+.container {
+    margin-top: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+}
+
+.container form {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    font-size:14px ; 
+    row-gap: 10px;
+    color: #686767;
+}
+
+.container input ,
+.container select 
+
+{
+    all: unset;
+    padding: 10px;
+    border: 1px solid #686767;
+    border-radius: 10px;
+    font-size: large;
+}
+
+.container button {
+all: unset;
+cursor: pointer;
+border-radius: 10px;
+border: 1px solid #686767;
+padding: 10px;
+background: #1d60c5;
+color: #fff;
+text-align: center;
+text-transform: capitalize;
+
+}
+
+
+
+
+.spin {
+    margin-right: 5px;
+    font-size: 20px;
+   vertical-align: sub;
+   animation: spinn 1s linear infinite ;
+}
+
+@keyframes spinn {
+     0%{
+        transform: rotate(0deg);
+    }
+    100%{
+transform: rotate(360deg);
+    }
+}

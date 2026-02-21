@@ -1,0 +1,28 @@
+/* app/globals.css */
+:root {
+  --primary-color: #0070f3;
+  --background: #ffffff;
+  --foreground: #171717;
+}
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html ,
+body {
+ 
+  font-family: 'Inter', sans-serif;
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  all: unset;
+  cursor: pointer;
+}
+
+
