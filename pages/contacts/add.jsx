@@ -28,7 +28,7 @@ const inputHandler = (e) => {
 const validationForm = () => {
 const {firstName , lastName , age , phone } = formInfo ;
 const rules = [
-    {test :!firstName?.trim() || firstName.trim().length < 2 , msg : 'First name is to short'},
+    {test :!firstName?.trim() || firstName.trim().length < 2 , msg : 'First name is too short'},
     {test :!lastName?.trim() || lastName.trim().length < 2 || lastName.trim().length > 50 , msg : 'First name is to short or long'},
     {test :isNaN(age) || Number(age) < 18 , msg :'Invalid age'},
     {test :!/^[0-9]{10,15}$/.test(phone) , msg : 'Invalid phone number'} ,

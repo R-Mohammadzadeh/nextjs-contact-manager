@@ -36,13 +36,13 @@ if(!req.body || Object.keys(req.body).length === 0) return res.status(400).json(
 const newUpdate = await Contact.findByIdAndUpdate(_id , req.body, {new :true , runValidators :true })
 
 if(!newUpdate) return res.status(404).json({message :'Contact not found' })
-return res.status(200).json({message : 'new contect apdated successfully' , data : newUpdate})  ;
+return res.status(200).json({message : 'new contact updated successfully' , data : newUpdate})  ;
 }
 
 
 // ======= Method Not Allowed =======
 res.setHeader('Allow' , ['GET','DELETE','PUT'])
-return res.status(405).json({message : `methode ${req.method} no allowed`})
+return res.status(405).json({message : `Methode ${req.method} no allowed`})
 
 }
 catch(error){
