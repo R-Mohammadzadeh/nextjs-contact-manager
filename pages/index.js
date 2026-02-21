@@ -17,7 +17,7 @@ export default function Home() {
           <p>Access and manage your full list of contacts</p>
         </Link>
 
-        <Link href="/add-contact" className={styles.card}>
+        <Link href="/contacts/add" className={styles.card}>
           <HiUserAdd className={styles.icon} />
           <h3>Add New</h3>
           <p>Create a new contact entry in the database</p>

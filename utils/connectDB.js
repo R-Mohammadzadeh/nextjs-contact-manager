@@ -16,7 +16,7 @@ if(cached.conn) return cached.conn
 if(!cached.promise) {
     const opts = {bufferCommands : null}
     cached.promise = mongoose.connect(MONGODB_URI , opts).then((mongoose) => {
-        console.log('connect to db mongo'); return mongoose
+        console.log('Connected to MongoDB successfully'); return mongoose
         
     })
 }
