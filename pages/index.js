@@ -25,7 +25,7 @@ export default function Home() {
       </div>
 
       <footer className={styles.footer}>
-        <p>Built with Next.js & MongoDB</p>
+        <p>Built with Next.js & MongoDB .</p>
       </footer>
     </div>
   );
