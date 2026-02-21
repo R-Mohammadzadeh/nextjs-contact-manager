@@ -53,4 +53,4 @@ return res.status(422).json({message : 'Validation failed' , messages})
 console.error('database error' , error)
 res.status(500).json({message : 'Internal Server Error'})
 }
-}
+} ;
