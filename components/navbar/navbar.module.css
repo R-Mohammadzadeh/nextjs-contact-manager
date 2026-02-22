@@ -9,7 +9,7 @@
     padding: 20px;
     height: 80px;
     text-transform: capitalize;
-    background-color: #ffffff; /* Hintergrundfarbe für bessere Lesbarkeit */
+    background-color: #ffffff;
 }
 
 /* Das Menü-Layout */
@@ -20,7 +20,6 @@
 }
 
 /* Basis-Styling für die Navigationslinks */
-/* "Pure Selectors" werden vermieden, indem wir Klassen nutzen */
 .link {
     display: flex;
     align-items: center;
@@ -37,7 +36,6 @@
 }
 
 /* Aktiver Link-Status */
-/* Markiert den Link der Seite, auf der sich der Nutzer gerade befindet */
 .active {
     color: rgb(101, 54, 211);
     font-weight: bold;
@@ -50,8 +48,6 @@
 /* --- Responsive Design für mobile Endgeräte (max. 600px) --- */
 @media (max-width: 600px) {
     .box {
-        /* In der mobilen Ansicht wird die Höhe auf "auto" gesetzt, 
-           um ein Überlappen der Inhalte zu verhindern */
         height: auto; 
         flex-direction: column;
         padding: 15px;
@@ -59,16 +55,15 @@
     }
 
     .menu {
-        /* Reduzierung des Abstands zwischen den Menüpunkten */
         gap: 20px;
         justify-content: center;
     }
 
     .link {
-        font-size: 14px; /* Kleinere Schriftart für schmale Bildschirme */
+        font-size: 14px;
     }
 
     .link svg {
-        font-size: 20px; /* Kleinere Icons für Mobilgeräte */
+        font-size: 20px;
     }
 }
