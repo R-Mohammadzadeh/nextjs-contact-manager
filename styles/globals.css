@@ -25,4 +25,11 @@ a {
   cursor: pointer;
 }
 
+#nprogress .bar {
+  background: rgb(101, 54, 211) !important; /* همان بنفش پروژه خودت */
+  height: 3px !important;
+}
 
+#nprogress .peg {
+  box-shadow: 0 0 10px rgb(101, 54, 211), 0 0 5px rgb(101, 54, 211) !important;
+}
