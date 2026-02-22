@@ -1,20 +1,27 @@
-# Full-Stack Contact Management System
+# Contact Management System (Full-Stack Next.js App)
 
-A professional contact management application built with **Next.js**, **MongoDB**, and **Mongoose**.
+Ein modernes Full-Stack-Projekt zur Verwaltung von Kontakten, entwickelt mit **Next.js**, **React** und **MongoDB Atlas**.
 
-## Features
-- **CRUD Operations:** Add, View, Update, and Delete contacts.
-- **Search & Filter:** Search by name and filter by gender.
-- **Form Validation:** Client-side and server-side validation using Mongoose schemas.
-- **Responsive Design:** Styled with CSS Modules for a clean UI.
+## 🚀 Projektübersicht
+Dieses Projekt ermöglicht es Benutzern, Kontakte effizient zu erstellen, anzuzeigen und zu verwalten. Der Fokus lag hierbei auf einer nahtlosen Integration zwischen Frontend und einer Cloud-Datenbank sowie einer optimierten Benutzererfahrung auf verschiedenen Endgeräten.
 
-## Tech Stack
-- **Frontend:** Next.js (Pages Router), React Hooks, React Hot Toast, React Icons.
-- **Backend:** Next.js API Routes.
-- **Database:** MongoDB Atlas with Mongoose ODM.
+## 🛠 Technologien & Tools
+* **Framework:** [Next.js](https://nextjs.org/) (App Router & API Routes)
+* **Datenbank:** [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) (Cloud NoSQL)
+* **Styling:** CSS Modules mit Fokus auf **Responsive Design**
+* **Deployment:** [Vercel](https://vercel.com/)
+* **Icons:** React Icons
 
-## How to Run
-1. Clone the repository.
-2. Install dependencies: `npm install`.
-3. Set up your `.env.local` with your `MONGODB_URI`.
-4. Run the development server: `npm run dev`.
+## 🌟 Hauptmerkmale (Key Features)
+* **Full-CRUD Funktionalität:** Erstellen, Lesen, Aktualisieren und Löschen von Kontaktdaten.
+* **Cloud-Integration:** Direkte Verbindung zur MongoDB Atlas Cloud über sichere Umgebungsvariablen.
+* **Responsive Webdesign:** Optimierte Darstellung für Desktop und mobile Endgeräte (Mobile-First-Ansatz).
+* **Server-Side Rendering (SSR):** Schnelle Ladezeiten und SEO-Optimierung durch Next.js.
+
+## 📱 Mobile Optimierung
+Ich habe das Frontend mit spezifischen **Media Queries** optimiert, um eine konsistente User Experience (UX) zu gewährleisten. Die Navigation passt sich automatisch an kleinere Bildschirme an (`flex-direction: column`), um die Lesbarkeit zu verbessern.
+
+## 🔧 Installation & Setup
+1. Repository klonen:
+   ```bash
+   git clone [https://github.com/R-Mohammadzadeh/nextjs-contact-manager.git](https://github.com/R-Mohammadzadeh/nextjs-contact-manager.git)
