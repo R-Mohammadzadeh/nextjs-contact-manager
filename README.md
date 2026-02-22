@@ -24,4 +24,4 @@ Ich habe das Frontend mit spezifischen **Media Queries** optimiert, um eine kons
 ## 🔧 Installation & Setup
 1. Repository klonen:
    ```bash
-   git clone [https://github.com/R-Mohammadzadeh/nextjs-contact-manager.git](https://github.com/R-Mohammadzadeh/nextjs-contact-manager.git)
+   git clone [ https://github.com/R-Mohammadzadeh/nextjs-contact-manager.git]
