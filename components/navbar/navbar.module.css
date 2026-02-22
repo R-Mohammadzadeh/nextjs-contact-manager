@@ -27,3 +27,17 @@ gap: 50px;
     color: rgb(101, 54, 211);
     
 }
+
+@media (max-width: 600px) {
+  .box {
+    flex-direction: column;  
+    gap: 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+}
