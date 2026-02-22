@@ -36,7 +36,7 @@ gap: 50px;
 }
 
 @media (max-width: 600px) {
-  h1 {
+  .menu svg {
     font-size: 1.5rem;
     text-align: center;
   }
