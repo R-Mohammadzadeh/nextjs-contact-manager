@@ -1,43 +1,74 @@
+/* Hauptcontainer der Navigation */
+/* Die "box" dient als Header-Bereich mit Schatten und Zentrierung */
 .box {
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0 auto;
-box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
-padding: 20px ;
-height: 80px;
-text-transform: capitalize;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    height: 80px;
+    text-transform: capitalize;
+    background-color: #ffffff; /* Hintergrundfarbe für bessere Lesbarkeit */
 }
 
-
+/* Das Menü-Layout */
+/* Flexbox sorgt für die horizontale Ausrichtung der Links */
 .menu {
-display: flex;
-gap: 50px;
+    display: flex;
+    gap: 50px;
 }
 
+/* Basis-Styling für die Navigationslinks */
+/* "Pure Selectors" werden vermieden, indem wir Klassen nutzen */
+.link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s ease;
+}
 
-.menu a svg {
+/* Styling der Icons innerhalb der Links */
+.link svg {
     font-size: 25px;
     margin-right: 10px;
-    vertical-align: sub;
+    vertical-align: middle;
 }
 
+/* Aktiver Link-Status */
+/* Markiert den Link der Seite, auf der sich der Nutzer gerade befindet */
+.active {
+    color: rgb(101, 54, 211);
+    font-weight: bold;
+}
 
 .active svg {
     color: rgb(101, 54, 211);
-    
 }
 
+/* --- Responsive Design für mobile Endgeräte (max. 600px) --- */
 @media (max-width: 600px) {
-  .box {
-    flex-direction: column;  
-    gap: 10px;
-  }
-}
+    .box {
+        /* In der mobilen Ansicht wird die Höhe auf "auto" gesetzt, 
+           um ein Überlappen der Inhalte zu verhindern */
+        height: auto; 
+        flex-direction: column;
+        padding: 15px;
+        gap: 10px;
+    }
 
-@media (max-width: 600px) {
-  .menu svg {
-    font-size: 1.5rem;
-    text-align: center;
-  }
+    .menu {
+        /* Reduzierung des Abstands zwischen den Menüpunkten */
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .link {
+        font-size: 14px; /* Kleinere Schriftart für schmale Bildschirme */
+    }
+
+    .link svg {
+        font-size: 20px; /* Kleinere Icons für Mobilgeräte */
+    }
 }

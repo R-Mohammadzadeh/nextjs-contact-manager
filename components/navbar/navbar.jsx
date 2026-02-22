@@ -5,32 +5,27 @@ import { RiContactsBook3Fill } from "react-icons/ri";
 import { FaHome } from "react-icons/fa";
 import { useRouter } from 'next/router';
 
-
-
 export default function MyNavbar () {
-
-const {route} = useRouter()
+    const { route } = useRouter()
 
     return (
-        <>
-        <div className={styles.box}>
+        <nav className={styles.box}>
             <div className={styles.menu}>
-        <Link href='/contacts/add' className={route == '/contacts/add' ? styles.active :'' }>
-       <IoPersonAdd /> add contact
-        </Link>
+                <Link href='/contacts/add' 
+                      className={`${styles.link} ${route === '/contacts/add' ? styles.active : ''}`}>
+                    <IoPersonAdd /> add contact
+                </Link>
 
-  <Link href='/contacts' className={route == '/contacts' ? styles.active : '' }>
-       <RiContactsBook3Fill  />contacts
-        </Link>
-        
-        <Link href='/' className={route == '/' ? styles.active : '' }>
-        <FaHome />home
-        </Link>
+                <Link href='/contacts' 
+                      className={`${styles.link} ${route === '/contacts' ? styles.active : ''}`}>
+                    <RiContactsBook3Fill /> contacts
+                </Link>
+
+                <Link href='/' 
+                      className={`${styles.link} ${route === '/' ? styles.active : ''}`}>
+                    <FaHome /> home
+                </Link>
             </div>
-            
-        </div>
-        
-        </>
+        </nav>
     )
 }
-
