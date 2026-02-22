@@ -2,9 +2,9 @@ import Contact from "@/models/Contact";
 import connectDB from "@/utils/connectDB";
 
 
-const escapeRegex = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
- 
 
+
+const escapeRegex = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
 
 
 export default async function handler (req , res) {
