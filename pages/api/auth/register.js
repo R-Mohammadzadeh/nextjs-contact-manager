@@ -34,7 +34,8 @@ export default async function handler(req, res) {
       });
     }
 
-    const { firstName, lastName, email, password } = req.body;
+    let { firstName, lastName, email, password } = req.body;
+    email = email.toLowerCase();
 
     const isEmailExist = await User.findOne({ email });
     if (isEmailExist) {
@@ -42,7 +43,7 @@ export default async function handler(req, res) {
     }
 
     // HASHING PASSWORD
-    const hashedPass = await hash(password, 12);
+    const hashedPass = await hash(password, Number(process.env.SALT_ROUNDOS) || 12 );
 
     // Benutzer erstellen
     const newUser = await User.create({ 
