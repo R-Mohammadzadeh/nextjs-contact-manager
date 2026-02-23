@@ -5,16 +5,16 @@ const { Schema, models, model } = require("mongoose");
 const ContactSchema = new Schema ({
     firstName : 
     {type : String ,
-     minLength : [2 , 'firstname is shortName must be at least 2 characters.'] ,
+     minLength : [2 , 'First name is shortName must be at least 2 characters.'] ,
      maxLength : 20,
-     required :[true , 'name is required'] ,
+     required :[true , 'First name is required'] ,
      trim : true 
     },
      lastName : 
     {type : String ,
-     minLength : [2 , 'lastName is shortName must be at least 2 characters.'] ,
+     minLength : [2 , 'Last name is shortName must be at least 2 characters.'] ,
      maxLength : 20,
-     required :[true , 'lastname is required'] ,
+     required :[true , 'Last name is required'] ,
      trim : true 
     },
 
