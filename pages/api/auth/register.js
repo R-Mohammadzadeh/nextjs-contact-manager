@@ -11,7 +11,8 @@ const Schema = {
   lastName: { type: 'string', min: 3, max: 255 },
   email: { type: 'email' }, 
   password: { type: 'string', min: 6 },
-  $$strict: true
+  $$strict: true ,
+  
 };
 
 const check = v.compile(Schema);
@@ -35,7 +36,7 @@ export default async function handler(req, res) {
     }
 
     let { firstName, lastName, email, password } = req.body;
-    email = email.toLowerCase();
+    email = email?.trim().toLowerCase();
 
     const isEmailExist = await User.findOne({ email });
     if (isEmailExist) {
@@ -50,7 +51,8 @@ export default async function handler(req, res) {
       firstName, 
       lastName, 
       email, 
-      password: hashedPass 
+      password: hashedPass ,
+      role : 'user' 
     });
 
     return res.status(201).json({
