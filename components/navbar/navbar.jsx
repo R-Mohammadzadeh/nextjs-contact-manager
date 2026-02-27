@@ -10,11 +10,19 @@ import { useContext } from "react";
 import { AppContext } from "@/pages/_app";
 import toast from "react-hot-toast";
 import { RxHamburgerMenu } from "react-icons/rx";
+import ThemeToggle from "../darkModus/ThemeToggle";
+
+
+
+
 
 export default function MyNavbar() {
   const { isAuth, setIsAuth, setUser, isOpen, setIsOpen } = useContext(AppContext);
   const { route } = useRouter();
 
+
+
+  
   const logOutHandler = async () => {
     try {
       const res = await fetch("/api/auth/logout");
@@ -82,6 +90,9 @@ export default function MyNavbar() {
             </Link>
           </>
         )}
+      <div className={styles.menu}>
+        < ThemeToggle />
+      </div>
       </div>
     </nav>
   

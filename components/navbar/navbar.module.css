@@ -8,7 +8,9 @@
     padding: 20px;
     height: 80px;
     text-transform: capitalize;
-    background-color: #ffffff;
+    background-color: var(--nav-bg);
+    box-shadow: 0 4px 6px var(--shadow);
+    color: var(--text-color);
 }
 
 
@@ -95,6 +97,8 @@ position: fixed;
   display: flex;
   flex-direction: column;
   padding: 20px;
+  background: var(--nav-bg);
+    color: var(--foreground);
 }
 
 .offMenuOpen {
@@ -144,12 +148,11 @@ position: fixed;
 
 .mal{
     cursor: pointer;
-&:hover{
-    color: #000;
+}
+.mal:hover{
+   color: #000;
     transition: all .3s ease-in-out;
 }
-}
-
 
 .overlay {
   position: fixed;

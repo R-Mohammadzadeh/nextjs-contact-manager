@@ -2,6 +2,7 @@ import MyNavbar from "@/components/navbar/navbar";
 import { createContext, useEffect, useMemo, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import styles from "@/styles/app.module.css";
+import { ThemeProvider } from "next-themes";
 
 
 export const AppContext = createContext();
@@ -47,7 +48,8 @@ const [isOpen , setIsOpen] = useState(false)
 
   return (
     <AppContext.Provider value={contextValue}>
-      <Toaster position="top-right" />
+<ThemeProvider attribute='data-theme' defaultTheme="system" enableSystem>
+    <Toaster position="top-right" />
       {!isLoading && <MyNavbar />}
 
       {isLoading ? (
@@ -57,6 +59,8 @@ const [isOpen , setIsOpen] = useState(false)
       ) : (
         <Component {...pageProps} />
       )}
+</ThemeProvider>
+    
     </AppContext.Provider>
   );
 }

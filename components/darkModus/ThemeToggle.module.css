@@ -1,0 +1,17 @@
+.themeBtn {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  transition: transform 0.2s ease;
+}
+
+.themeBtn:hover {
+  transform: scale(1.1); 
+}
+
+.themeBtn:active {
+  transform: scale(0.9);
+}
