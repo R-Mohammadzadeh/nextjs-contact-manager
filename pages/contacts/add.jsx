@@ -1,136 +1,88 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import styles from '@/styles/add-contact.module.css'
+import styles from '@/styles/add-contact.module.css';
 import { ImSpinner3 } from "react-icons/im";
+import validateToken from "@/utils/auth";
 
+const INITIAL_STATE = { firstName: '', lastName: '', age: '', phone: '', gender: '' };
 
+export default function AddContacts() {
+  const [form, setForm] = useState(INITIAL_STATE);
+  const [loading, setLoading] = useState(false);
+  const inputRef = useRef();
 
-export default function AddContacts () {
+  useEffect(() => { inputRef.current?.focus(); }, []);
 
-const INITIAL_STATE = {firstName : '' , lastName : '' , age : '' , phone :'' ,gender :''} ;
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setForm(prev => ({ ...prev, [name]: value }));
+  };
 
-const[formInfo , setFormInfo] = useState(INITIAL_STATE);
-const inputRef = useRef();
-const [loading , setLoading] = useState(false);
+  const validateForm = () => {
+    const { firstName, lastName, age, phone, gender } = form;
+    const rules = [
+      { test: !firstName?.trim() || firstName.trim().length < 2, msg: 'First name too short' },
+      { test: !lastName?.trim() || lastName.trim().length < 2 || lastName.trim().length > 50, msg: 'Last name invalid' },
+      { test: isNaN(age) || Number(age) < 18, msg: 'Invalid age' },
+      { test: !/^[0-9]{10,15}$/.test(phone), msg: 'Invalid phone number' },
+      { test: !['male','female','others'].includes(gender), msg: 'Invalid gender' },
+    ];
+    const error = rules.find(r => r.test);
+    if (error) { toast.error(error.msg); return false; }
+    return true;
+  };
 
+  const handleSubmit = async e => {
+    e.preventDefault();
+    if (!validateForm()) return;
 
-useEffect(() => {
-    inputRef.current?.focus()
-},[])
- 
-// handle inputs
-const inputHandler = (e) => {
-    const {name , value} = e.target ;
-   setFormInfo((prev) => ({...prev , [name]: value})) ;
+    setLoading(true);
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, age: Number(form.age) })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Server error');
+
+      toast.success('Contact added successfully!');
+      setForm(INITIAL_STATE);
+      inputRef.current.focus();
+    } catch (err) {
+      toast.error(err.message || 'Could not connect to server');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <>
+      <Toaster position="top-right" />
+      <div className={styles.container}>
+        <form onSubmit={handleSubmit}>
+          <input ref={inputRef} name="firstName" value={form.firstName} onChange={handleChange} placeholder="First Name" />
+          <input name="lastName" value={form.lastName} onChange={handleChange} placeholder="Last Name" />
+          <input name="age" type="number" min="18" value={form.age} onChange={handleChange} placeholder="Age" />
+          <select name="gender" value={form.gender} onChange={handleChange}>
+            <option value="" disabled hidden>Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="others">Others</option>
+          </select>
+          <input name="phone" value={form.phone} onChange={handleChange} placeholder="Phone" />
+          <button type="submit" disabled={loading}>
+            {loading ? <ImSpinner3 className={styles.spin} /> : 'Add Contact'}
+          </button>
+        </form>
+      </div>
+    </>
+  );
 }
 
-// validation
-const validationForm = () => {
-const {firstName , lastName , age , phone } = formInfo ;
-const rules = [
-    {test :!firstName?.trim() || firstName.trim().length < 2 , msg : 'First name is too short'},
-    {test :!lastName?.trim() || lastName.trim().length < 2 || lastName.trim().length > 50 , msg : 'First name is to short or long'},
-    {test :isNaN(age) || Number(age) < 18 , msg :'Invalid age'},
-    {test :!/^[0-9]{10,15}$/.test(phone) , msg : 'Invalid phone number'} ,
-    {test :!['male' , 'female' , 'others'].includes(formInfo.gender) , msg :'Invalid gender'}
-
-]
-const error = rules.find(rul => rul.test)
-if(error){
-toast.error(error.msg)
-return false
+// ================= SERVER-SIDE AUTH =================
+export async function getServerSideProps(context) {
+  const payload = validateToken(context);
+  if (!payload) return { redirect: { destination: '/auth/login', permanent: false } };
+  return { props: {} };
 }
-return true
-}
-
-// submit
-const subHandler = async (e) => {
-e.preventDefault();
-if(!validationForm()) return ;
-
-setLoading(true)
-
-try{
-const payload = {...formInfo , age :Number(formInfo.age)}
-
-const res = await fetch('/api/contact' , {
-    method : 'POST' ,
-    headers : {'Content-Type' : 'application/json'} ,
-    body : JSON.stringify(payload)
-})
-const data = await res.json()
-if(!res.ok) throw new Error(data.message || 'Something went wrong')
-    
-
-toast.success('Contact added successfully!')
-setFormInfo(INITIAL_STATE)
-inputRef.current.focus()
-}
-catch(error){
-toast.error(error.message || 'Could not connect to the server.')
-}finally {
-    setLoading(false)
-}
-}
-
-
-
-    return (
-<>
- <Toaster position="top-right" />
-<div className={styles.container}>
-  <form onSubmit={subHandler}>
-    <input
-     ref={inputRef}
-      value={formInfo.firstName}
-       type="text"
-        placeholder="first Name"
-         name="firstName" 
-         onChange={inputHandler} 
-          />
-
-    <input
-     type="text"
-      value={formInfo.lastName}
-       placeholder="last Name"
-        onChange={inputHandler}
-         name="lastName"  />
-
-    <input 
-    type="number"
-    value={formInfo.age} 
-    placeholder="age"
-     onChange={inputHandler}
-      name="age" min='18' />
-
-    <select name="gender" onChange={inputHandler} value={formInfo.gender} >
-        <option value=""  hidden disabled>select gender</option>
-        <option value="male">male</option>
-        <option value="female">female</option>
-        <option value="others">others</option>
-    </select>
-
-    <input
-     type="text"
-      value={formInfo.phone}
-       placeholder="phone"
-        onChange={inputHandler}
-         name="phone" />
-
-    <button disabled={loading} type="submit" >
-      {loading ? <ImSpinner3 className={styles.spin} /> : 'Add Contact'}  
-    </button>
-  </form>
-
-</div>
-
-</>
-    )
-}
-
-
-
-
-
-
-

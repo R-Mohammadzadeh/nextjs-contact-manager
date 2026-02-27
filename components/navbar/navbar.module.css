@@ -1,5 +1,4 @@
-/* Hauptcontainer der Navigation */
-/* Die "box" dient als Header-Bereich mit Schatten und Zentrierung */
+
 .box {
     display: flex;
     justify-content: center;
@@ -12,14 +11,13 @@
     background-color: #ffffff;
 }
 
-/* Das Menü-Layout */
-/* Flexbox sorgt für die horizontale Ausrichtung der Links */
+
 .menu {
     display: flex;
     gap: 50px;
 }
 
-/* Basis-Styling für die Navigationslinks */
+
 .link {
     display: flex;
     align-items: center;
@@ -32,7 +30,7 @@
 .link svg {
     font-size: 25px;
     margin-right: 10px;
-    vertical-align: middle;
+    vertical-align: sub;
 }
 
 /* Aktiver Link-Status */
@@ -45,8 +43,21 @@
     color: rgb(101, 54, 211);
 }
 
+.Btn {
+    all: unset;
+    cursor: pointer;
+  
+   
+}
+.Btn svg {
+     vertical-align: sub;
+     font-size: 20px;
+margin-right: 3px;
+}
+
+
 /* --- Responsive Design für mobile Endgeräte (max. 600px) --- */
-@media (max-width: 600px) {
+@media (max-width:750px) {
     .box {
         height: auto; 
         flex-direction: column;
@@ -57,6 +68,7 @@
     .menu {
         gap: 20px;
         justify-content: center;
+        flex-direction: column;
     }
 
     .link {
@@ -66,4 +78,130 @@
     .link svg {
         font-size: 20px;
     }
+}
+
+/* hamburger menu  */
+.offMenu {
+position: fixed;
+  top: 0;
+  right: 0;
+  width: 280px;
+  height: 100vh;
+  background: rgba(199, 192, 235, 0.95);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  transform: translateX(100%); 
+  transition: transform 1.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.offMenuOpen {
+  transform: translateX(0) ;
+}
+
+.offHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+
+}
+
+.offMenu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.offMenu ul li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1rem 0;
+  
+}
+
+.offMenu ul li a {
+  text-decoration: none;
+  color: #000;
+  transition: color 0.2s;
+  color: #fff;
+}
+
+.offMenu ul li a:hover {
+  color: #0070f3;
+  transition: color 0.2s;
+  transition-delay: 0.1s;
+  transition-timing-function: ease-in-out;
+  transition-duration: 0.3s;
+
+}
+
+
+.mal{
+    cursor: pointer;
+&:hover{
+    color: #000;
+    transition: all .3s ease-in-out;
+}
+}
+
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 999;
+}
+
+.hamburgerWrapper {
+display: none;
+cursor: pointer;
+
+}
+
+.hamburgerWrapper svg:hover {
+
+ color: #3bd9ee;
+}
+
+
+@media (max-width: 768px) {
+  .hamburgerWrapper {
+    display: block; 
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 900;
+  }
+  
+  .menu {
+    flex-direction: column; 
+    gap: 20px;
+  }
+}
+
+@media (min-width: 769px) {
+  .offMenu {
+    position: static;
+    transform: none;
+    height: auto;
+    width: auto;
+    background: transparent;
+    backdrop-filter: none;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .offHeader {
+    display: none; 
+  }
+
+  .hamburgerWrapper {
+    display: none !important;
+  }
 }

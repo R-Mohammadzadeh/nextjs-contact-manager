@@ -1,92 +1,76 @@
+import { useState } from "react";
+import { FaRegEye, FaRegEyeSlash, FaSpinner } from "react-icons/fa";
+import styles from "@/styles/register.module.css";
+import Link from "next/link";
+import toast from "react-hot-toast";
+import { useRouter } from "next/router";
 
-import { useState } from 'react';
-import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import styles from '@/styles/login.module.css';
-import Link from 'next/link';
-import toast ,{Toaster} from 'react-hot-toast';
 export default function Register() {
+  const router = useRouter();
+  const INITIAL = { firstName: "", lastName: "", email: "", password: "" };
 
-const INITIOAL_STATE = {firstName:'' , lastName:'' , email:'' , password :''} 
-const [showPassword, setShowPassword] = useState(false);
-const[formData ,setFormData ] = useState(INITIOAL_STATE)
+  const [formData, setFormData] = useState(INITIAL);
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
+  const inputHandler = e =>
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
 
+  const subHandler = async e => {
+    e.preventDefault();
+    if (!formData.email || !formData.password)
+      return toast.error("Please fill in all fields");
 
-const inputHandler = (e) => {
-const {name , value} = e.target ;
-setFormData(prevData => ({
-  ...prevData , [name] : value
-}))
-}
+    setLoading(true);
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
 
-
-const subHandler = async (e) => {
-e.preventDefault() ;
-
-
-
-const res = await fetch('/api/auth/register' , {
-   method : 'POST' , 
-   headers : {'Content-Type' : 'application/json'} ,
-   body : JSON.stringify(formData)
-})
-const data = await res.json()
-if(res.status === 201) {
-  toast.success(data.message) ;
-  setFormData(INITIOAL_STATE)
-}else {
-  toast.error(data.message || "Something went wrong!")
-}
-}
-
-
-
-
+      toast.success(data.message);
+      setFormData(INITIAL);
+      router.replace("/auth/login");
+    } catch (err) {
+      toast.error(err.message || "Server connection failed");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-   <>
-   <Toaster position='top-right' />
-     <div className={styles.container}>
-        <form onSubmit={subHandler}>
-            <input type="text" placeholder='firstName' onChange={inputHandler} name='firstName' value={formData.firstName} />
-            <input type="text" placeholder='lastName' onChange={inputHandler} name='lastName' value={formData.lastName} />
-          <input type="email" placeholder="Email" className={styles.inputField} onChange={inputHandler} name='email' value={formData.email} />
+    <div className={styles.container}>
+      <form onSubmit={subHandler}>
+        <input name="firstName" placeholder="First name" value={formData.firstName} onChange={inputHandler} />
+        <input name="lastName" placeholder="Last name" value={formData.lastName} onChange={inputHandler} />
+        <input name="email" type="email" placeholder="Email" value={formData.email} onChange={inputHandler} />
 
-          <div className={styles.password}>
-            <input 
-              type={showPassword ? "text" : "password"} 
-              placeholder="Password" 
-            onChange={inputHandler} name='password' value={formData.password}
-            /> 
-            <span className={styles.eyes} onClick={() => setShowPassword(!showPassword)}>
-                {showPassword ? <FaRegEyeSlash size='20px'/> : <FaRegEye size='20px'/>}
-            </span>
-           
-          </div>
+        <div className={styles.password}>
+          <input
+            name="password"
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            value={formData.password}
+            onChange={inputHandler}
+          />
+          <span className={styles.eyes} onClick={() => setShowPassword(!showPassword)}>
+            {showPassword ? <FaRegEyeSlash size="20" /> : <FaRegEye size="20" />}
+          </span>
+        </div>
 
-          <button type="submit" className={styles.submitBtn}>Register</button>
-          
-          <div className={styles.message}>
-            Allready Register ? <Link href="/auth/login">Login</Link>
-          </div>
-        </form>
-      </div>
- 
-   </>
+        <button disabled={loading} className={styles.submitBtn}>
+          {loading && <FaSpinner className={styles.spinner} size="20" />}
+          Register
+        </button>
 
-
-
-    
+        <div className={styles.message}>
+          Already registered? <Link href="/auth/login">Login</Link>
+        </div>
+      </form>
+    </div>
   );
 }
-
-
-
-
-
-
-
-
-
-

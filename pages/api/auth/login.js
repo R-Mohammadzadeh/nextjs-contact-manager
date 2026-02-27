@@ -1,74 +1,52 @@
 import User from "@/models/User";
 import connectDB from "@/utils/connectDB";
 import Validator from "fastest-validator";
-import jwt from 'jsonwebtoken'
+import jwt from "jsonwebtoken";
 import { compare } from "bcryptjs";
+import { serialize } from "cookie";
 
-
-
-
-const v = new Validator();
-
-// Schema Definition
-const Schema = {
-  email: { type: 'email' }, 
-  password: { type: 'string', min: 6 },
-  $$strict: true ,
-  
-};
-
-const check = v.compile(Schema);
+const check = new Validator().compile({
+  email: { type: "email", empty: false },
+  password: { type: "string", min: 8, empty: false },
+  $$strict: true,
+});
 
 export default async function loginHandler(req, res) {
-  try {
-    await connectDB();
+  if (req.method !== "POST")
+    return res.status(405).json({ message: "Method not allowed" });
 
-    // Check Method
-    if (req.method !== 'POST') {
-      return res.status(405).json({ message: 'Method not Allowed' });
-    }
+  await connectDB();
 
-    // Validierung
-    const validationResponse = check(req.body);
-    if (validationResponse !== true) {
-      return res.status(422).json({ 
-        message: "Validation failed", 
-        errors: validationResponse 
-      });
-    }
-// email check
-    let {email, password } = req.body;
-    email = email?.trim().toLowerCase();
+  const validation = check(req.body);
+  if (validation !== true)
+    return res.status(422).json({ message: "Validation failed", errors: validation });
 
-// 1. Finde den Benutzer
-    const user = await User.findOne({ email });
-    if (!user) {
-// Aus Sicherheitsgründen halten wir die Nachricht verschleiert.      
-      return res.status(401).json({ message: 'email or password invalid!' });
-    }
+  let { email, password } = req.body;
+  email = email.trim().toLowerCase();
 
-// 2. Passwortvergleich
-const isPasswordCorrect = await compare(password , user.password)
-if(!isPasswordCorrect) return res.status(401).json({ message: "Email or password is wrong!" });
+  const user = await User.findOne({ email }).select("+password firstName lastName role email");
+  if (!user || !(await compare(password, user.password || "")))
+    return res.status(401).json({ message: "Invalid email or password!" });
 
-// 3. Token-Generierung
-const JWt_SECRET = process.env.JWt_SECRET || 'your_fallback_secret' ;
-const token = jwt.sign(
-  {email :user.email , role :user.role , _id :user._id} , JWt_SECRET , {
-    expiresIn : '24h'
-})
-// Sende die endgültige Antwort und beende das Programm.
-res.status(200).json({message : ' user login successfully' , token})
+  const token = jwt.sign(
+    { _id: user._id, email: user.email, role: user.role, firstName: user.firstName },
+    process.env.JWT_SECRET,
+    { expiresIn: "24h" }
+  );
 
-    return res.status(201).json({
-      message: 'User logged in successfully',
-     token
-    });
+  res.setHeader(
+    "Set-Cookie",
+    serialize("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      path: "/",
+      maxAge: 60 * 60 * 24,
+    })
+  );
 
-  } catch (error) {
-    console.error("DEBUG ERROR:", error.message);
-    return res.status(500).json({ message: 'Server Error' , error :error.message});
-  }
+  return res.status(200).json({
+    message: "Success",
+    user: { firstName: user.firstName, lastName: user.lastName, role: user.role },
+  });
 }
-
-

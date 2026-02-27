@@ -1,13 +1,21 @@
 import styles from "@/styles/Home.module.css";
 import Link from "next/link";
-import { HiUsers, HiUserAdd } from "react-icons/hi";
+import { HiUsers, HiUserAdd, HiArrowRight } from "react-icons/hi";
+import { useContext } from "react";
+import { AppContext } from "./_app";
 
 export default function Home() {
+  const { isAuth, user } = useContext(AppContext);
+
   return (
     <div className={styles.container}>
       <header className={styles.header}>
         <h1>Contact Management System</h1>
-        <p>Manage your professional network efficiently</p>
+        <p>
+          {isAuth
+            ? `Welcome back, ${user?.firstName}! Manage your network.`
+            : "Manage your professional network efficiently"}
+        </p>
       </header>
 
       <div className={styles.grid}>
@@ -17,15 +25,22 @@ export default function Home() {
           <p>Access and manage your full list of contacts</p>
         </Link>
 
-        <Link href="/contacts/add" className={styles.card}>
-          <HiUserAdd className={styles.icon} />
-          <h3>Add New</h3>
-          <p>Create a new contact entry in the database</p>
+        <Link
+          href={isAuth ? "/dashboard" : "/auth/login"}
+          className={styles.card}
+        >
+          {isAuth ? <HiArrowRight className={styles.icon} /> : <HiUserAdd className={styles.icon} />}
+          <h3>{isAuth ? "Go to Dashboard" : "Get Started"}</h3>
+          <p>
+            {isAuth
+              ? "View your personalized stats and profile"
+              : "Login or create an account to manage contacts"}
+          </p>
         </Link>
       </div>
 
       <footer className={styles.footer}>
-        <p>Built with Next.js & MongoDB .</p>
+        <p>Built with Next.js & MongoDB.</p>
       </footer>
     </div>
   );

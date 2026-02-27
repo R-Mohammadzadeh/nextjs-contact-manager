@@ -1,37 +1,62 @@
 import MyNavbar from "@/components/navbar/navbar";
-// import "@/styles/globals.css";
-// import 'nprogress/nprogress.css';
-// import "@/styles/globals.css";
-// import { useRouter } from "next/router";
-// import { useEffect } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
+import { Toaster } from "react-hot-toast";
+import styles from "@/styles/app.module.css";
 
 
-
-// NProgress.configure({ showSpinner: false, speed: 500, minimum: 0.3 });
-
+export const AppContext = createContext();
 export default function App({ Component, pageProps }) {
-// const router = useRouter();
 
-// useEffect(() => {
-//     const handleStart = () => NProgress.start();
-//     const handleStop = () => NProgress.done();
+  const [isAuth, setIsAuth] = useState(false);
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+const [isOpen , setIsOpen] = useState(false)
 
-//     router.events.on('routeChangeStart', handleStart);
-//     router.events.on('routeChangeComplete', handleStop);
-//     router.events.on('routeChangeError', handleStop);
 
-//     return () => {
-//       router.events.off('routeChangeStart', handleStart);
-//       router.events.off('routeChangeComplete', handleStop);
-//       router.events.off('routeChangeError', handleStop);
-//     };
-//   }, [router]);
 
+
+
+  useEffect(() => {
+    let mounted = true;
+
+    (async () => {
+      try {
+        const res = await fetch("/api/auth/status");
+        const data = await res.json();
+        if (!mounted) return;
+
+        setIsAuth(res.status === 200);
+        setUser(res.status === 200 ? data.user : null);
+      } catch {
+        if (mounted) {
+          setIsAuth(false);
+          setUser(null);
+        }
+      } finally {
+        if (mounted) setIsLoading(false);
+      }
+    })();
+
+    return () => (mounted = false);
+  }, []);
+
+  const contextValue = useMemo(
+    () => ({ isAuth, setIsAuth, user, setUser, isLoading , setIsOpen , isOpen }),
+    [isAuth, user, isLoading , isOpen]
+  );
 
   return (
-    <>
-    <MyNavbar />
-    <Component {...pageProps} />
-    </>
-  )
+    <AppContext.Provider value={contextValue}>
+      <Toaster position="top-right" />
+      {!isLoading && <MyNavbar />}
+
+      {isLoading ? (
+        <div className={styles.loaderContainer}>
+          <span className={styles.loader}></span>
+        </div>
+      ) : (
+        <Component {...pageProps} />
+      )}
+    </AppContext.Provider>
+  );
 }
