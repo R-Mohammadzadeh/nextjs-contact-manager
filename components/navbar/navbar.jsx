@@ -90,8 +90,8 @@ export default function MyNavbar() {
             </Link>
           </>
         )}
-      <div className={styles.menu}>
-        < ThemeToggle />
+      <div >
+        < ThemeToggle className={styles.dark}/>
       </div>
       </div>
     </nav>
