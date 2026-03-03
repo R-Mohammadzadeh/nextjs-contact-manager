@@ -18,33 +18,40 @@ export default function AddContacts() {
     setForm(prev => ({ ...prev, [name]: value }));
   };
 
-  const validateForm = () => {
-    const { firstName, lastName, age, phone, gender } = form;
-    const rules = [
-      // First Name Validation
-      {test : !firstName?.trim() , msg :'First name is required'} ,
-      {test :firstName?.trim() && firstName.trim().length < 2 , msg :'First name is too short (min 2 chars)' } ,
-      // Last Name Validation
-      {test : !lastName?.trim() , msg: 'Last name is required' } ,
-      {test : lastName?.trim() && (lastName.trim().length < 2)} ,
-      // Age Validation
-      {test: !age , msg :'Age is required'} ,
-      {test : age && (isNaN(age) || Number(age)) < 18 , msg :'Age must be a number and at least 18' } ,
-      // Gender Validation
-      {test : !gender, msg: 'Please select a gender' } ,
-      // Phone Validation
-      {test : !phone , msg : 'Phone number is required'} ,
-      {test : phone && !/^[0-9]{10,15}$/.test(phone) , msg : 'Phone must be 10-15 digits'}
-    ];
-    // Find the first rule that is true (meaning there is an error)
-    const error = rules.find(r => r.test);
-    if (error) { toast.error(error.msg); return false; }
-    return true;
+  const validateForm = ({firstName , lastName , age , phone , gender}) => {
+
+  firstName = firstName?.trim() ;
+  lastName = lastName?.trim() ;
+  phone = phone?.trim() ; 
+   
+ if (!firstName && !lastName && !age && !phone && !gender) {
+    return "All fields are required";
+  }
+
+if(!firstName) return "First name is required";
+if(firstName.length < 2) return "First name too short";
+
+if(!lastName) return "Last name is required";
+if(lastName.length < 2) return "Last name too short";
+
+if(!age) return "Age is required";
+if(isNaN(age) || Number(age) < 18 ) return "Age must be 18+";
+
+if (!gender) return "Please select gender";
+
+if(!phone) return "Phone required";
+if(!/^[0-9]{10,15}$/.test(phone)) return "Phone invalid";
+
+return null
   };
 
   const handleSubmit = async e => {
     e.preventDefault();
-    if (!validateForm()) return;
+    const error = validateForm(form)
+    if(error) {
+      toast.error(error)
+      return ;
+    }
 
     setLoading(true);
     try {

@@ -48,7 +48,7 @@ export default function MyNavbar() {
 <>
 
   {!isOpen && (
-    <div className={styles.hamburgerWrapper} onClick={() => setIsOpen(true)}>
+    <div className={styles.hamburgerWrapper} onClick={() => setIsOpen(!isOpen)}>
       <RxHamburgerMenu size="30px" />
     </div>
   )}
@@ -58,7 +58,7 @@ export default function MyNavbar() {
     <nav className={`${styles.offMenu} ${isOpen ? styles.offMenuOpen : ""}`}>
     
         <div className={styles.offHeader}>
-          <IoClose size="30px" onClick={closeMenu} className={styles.mal} />
+         {isOpen && <IoClose size="30px" onClick={closeMenu} className={styles.mal} />}
         </div>
 
       <div className={styles.menu}>
