@@ -48,7 +48,7 @@ const [isOpen , setIsOpen] = useState(false)
 
   return (
     <AppContext.Provider value={contextValue}>
-<ThemeProvider attribute='data-theme' defaultTheme="system" enableSystem>
+    <ThemeProvider attribute='data-theme' defaultTheme="system" enableSystem>
     <Toaster position="top-right" />
       {!isLoading && <MyNavbar />}
 

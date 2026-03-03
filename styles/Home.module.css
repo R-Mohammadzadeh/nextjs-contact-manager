@@ -36,11 +36,11 @@
   text-decoration: none;
   color: inherit;
   transition: all 0.3s ease;
-  background-color: #fff;
+ 
 }
 
 .card:hover {
-  border-color: #2281ee;
+  border-color: #3565e9;
   transform: translateY(-5px);
   box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }

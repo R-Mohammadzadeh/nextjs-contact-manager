@@ -21,12 +21,22 @@ export default function AddContacts() {
   const validateForm = () => {
     const { firstName, lastName, age, phone, gender } = form;
     const rules = [
-      { test: !firstName?.trim() || firstName.trim().length < 2, msg: 'First name too short' },
-      { test: !lastName?.trim() || lastName.trim().length < 2 || lastName.trim().length > 50, msg: 'Last name invalid' },
-      { test: isNaN(age) || Number(age) < 18, msg: 'Invalid age' },
-      { test: !/^[0-9]{10,15}$/.test(phone), msg: 'Invalid phone number' },
-      { test: !['male','female','others'].includes(gender), msg: 'Invalid gender' },
+      // First Name Validation
+      {test : !firstName?.trim() , msg :'First name is required'} ,
+      {test :firstName?.trim() && firstName.trim().length < 2 , msg :'First name is too short (min 2 chars)' } ,
+      // Last Name Validation
+      {test : !lastName?.trim() , msg: 'Last name is required' } ,
+      {test : lastName?.trim() && (lastName.trim().length < 2)} ,
+      // Age Validation
+      {test: !age , msg :'Age is required'} ,
+      {test : age && (isNaN(age) || Number(age)) < 18 , msg :'Age must be a number and at least 18' } ,
+      // Gender Validation
+      {test : !gender, msg: 'Please select a gender' } ,
+      // Phone Validation
+      {test : !phone , msg : 'Phone number is required'} ,
+      {test : phone && !/^[0-9]{10,15}$/.test(phone) , msg : 'Phone must be 10-15 digits'}
     ];
+    // Find the first rule that is true (meaning there is an error)
     const error = rules.find(r => r.test);
     if (error) { toast.error(error.msg); return false; }
     return true;
@@ -81,6 +91,7 @@ export default function AddContacts() {
 }
 
 // ================= SERVER-SIDE AUTH =================
+
 export async function getServerSideProps(context) {
   const payload = validateToken(context);
   if (!payload) return { redirect: { destination: '/auth/login', permanent: false } };
