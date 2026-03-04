@@ -1,8 +1,10 @@
 import Contact from "@/models/Contact";
 import validateToken from "@/utils/auth";
 import connectDB from "@/utils/connectDB";
+import { generateContactFilter } from "@/utils/contactHelpers";
 
-const escapeRegex = text => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+
 
 export default async function handler(req, res) {
   try {
@@ -17,21 +19,9 @@ const userId = payload.userId
 
     // ================= GET =================
     if (req.method === "GET") {
-      const { gen, search } = req.query;
-
-      const query = {
-        userId ,
-        ...(gen && ["male", "female", "others"].includes(gen) && { gender: gen }),
-        ...(search && {
-          $or: [
-            { firstName: { $regex: escapeRegex(search), $options: "i" } },
-            { lastName: { $regex: escapeRegex(search), $options: "i" } },
-            { phone: { $regex: escapeRegex(search), $options: "i" } },
-          ],
-        }),
-      };
-
-      const contacts = await Contact.find(query).sort({ createdAt: -1 });
+     
+      const filter = generateContactFilter(userId , req.query)
+      const contacts = await Contact.find(filter).sort({ createdAt: -1 });
       return res.status(200).json(contacts);
     }
 
@@ -40,7 +30,8 @@ const userId = payload.userId
       if (!req.body || Object.keys(req.body).length === 0)
         return res.status(400).json({ message: "Request body is required" });
 
-      const newContact = await Contact.create(req.body);
+      const contactData = {...req.body , userId} ;
+      const newContact = await Contact.create(contactData);
       return res.status(201).json({ message: "New contact added", data: newContact });
     }
 

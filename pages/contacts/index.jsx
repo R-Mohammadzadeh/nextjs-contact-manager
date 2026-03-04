@@ -2,20 +2,26 @@ import ConntactsInfo from "@/components/contactInfo/ContactsInfo"
 import Contact from "@/models/Contact"
 import connectDB from "@/utils/connectDB"
 import styles from '@/styles/contacts.module.css'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import validateToken from "@/utils/auth"
-
+import { generateContactFilter } from "@/utils/contactHelpers"
+import { useRouter } from "next/router"
 
 
 export default function Contacts ({contacts}) {
 const [infoList , setInfoList] = useState(contacts || []) ;
 const [search , setSearch] = useState('') 
 const [gen , setGen] = useState('')
+const router = useRouter()
+// 2. This will cause the list to update if the user changes the URL directly
+useEffect(()=>{
+    setInfoList(contacts)
+},[contacts])
 
 const clickHandler = async () => {
-const res = await fetch(`/api/contacts?gen=${gen}&search=${search}`)
-const data = await res.json()
-setInfoList(data)
+// 3. Instead of manually fetching, we change the URL
+// Next.js will automatically rerun getServerSideProps    
+router.push(`/contacts?gen=${gen}&search=${search}`);
 }
 
 
@@ -55,38 +61,23 @@ try{
  const payload = validateToken(context)
  if(!payload) return {redirect : {destination : '/auth/login'}}
     
-const userId = payload.userId ;
-const {gen , search} = context.query ; // Identifizieren Sie die URL
+const userId = payload.userId
+// 4. Run the query using built-in filters.
+const filter = generateContactFilter(userId , context.query) ;
 
-//  1. Erstellen Sie ein Abfrageobjekt (immer auf den angemeldeten Benutzer beschränkt)
-let query = {userId} ;
-// 3. Suchfilter für Vor- und Nachnamen hinzufügen (falls in der URL enthalten)
-if(gen && gen !== 'all'){
-    query.gender = gen ;
-}
-
-// 3. Suchfilter für Vor- und Nachnamen hinzufügen (falls in der URL enthalten)
-if(search) {
-    query.$or = [
-        {firstName : {$regex : search , $options : 'i'}} ,
-        {lasttName : {$regex : search , $options : 'i'}} ,
-    ]
-}
-
-// 4. Führen Sie die Abfrage mit integrierten Filtern aus.
-const data = await Contact.find(query).sort({createdAt : -1}).lean()
+const data = await Contact.find(filter).sort({createdAt : -1}).lean()
 const contacts = JSON.parse(JSON.stringify(data))
-return {
-    props : {contacts}
-}   
+
+
+
+return {props : {contacts}} 
+    
+  
 }
 catch(error){
    console.error("Error in getServerSideProps:", error); 
-return {
-    props : {
-        contacts : []
-    }
-}
+return {props : {contacts : [] }}  
+
 }
 
 }
