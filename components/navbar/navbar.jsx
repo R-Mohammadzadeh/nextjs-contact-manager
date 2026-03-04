@@ -6,7 +6,7 @@ import { FaHome } from "react-icons/fa";
 import { LuLogIn, LuLogOut } from "react-icons/lu";
 import { MdDashboardCustomize } from "react-icons/md";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AppContext } from "@/pages/_app";
 import toast from "react-hot-toast";
 import { RxHamburgerMenu } from "react-icons/rx";
@@ -42,6 +42,10 @@ export default function MyNavbar() {
     `${styles.link} ${route === path ? styles.active : ""}`;
 
   const closeMenu = () => setIsOpen(false);
+
+useEffect(() => {
+  document.body.style.overflow = isOpen ? 'hidden' : 'auto';
+}, [isOpen]);
 
   return (
 

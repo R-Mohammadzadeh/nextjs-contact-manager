@@ -9,10 +9,10 @@ import { MdOutlineFavoriteBorder } from "react-icons/md";
 export default function ContactsInfo ({firstName , lastName , age , phone , gender ,_id , infoList , setInfoList}) {
 
  const deleteHandler =  async (_id) => {
-
+if (!confirm("Are you sure you want to delete this contact?")) return;
      
     try{
-const res = await fetch(`/api/contact/${_id}` , {method : 'DELETE'})
+const res = await fetch(`/api/contacts/${_id}` , {method : 'DELETE'})
 const data = await res.json()
 
 if(!res.ok){

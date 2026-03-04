@@ -1,4 +1,5 @@
 import Contact from "@/models/Contact";
+import validateToken from "@/utils/auth";
 import connectDB from "@/utils/connectDB";
 
 const escapeRegex = text => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -6,12 +7,20 @@ const escapeRegex = text => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 export default async function handler(req, res) {
   try {
     await connectDB();
+// 1. Verify user identity on every request (GET or POST) 
+const payload = validateToken({req}) ; 
+if(!payload) {
+  return res.status(401).json({message :'Please log in to your account first.'}) 
+}
+
+const userId = payload.userId
 
     // ================= GET =================
     if (req.method === "GET") {
       const { gen, search } = req.query;
 
       const query = {
+        userId ,
         ...(gen && ["male", "female", "others"].includes(gen) && { gender: gen }),
         ...(search && {
           $or: [

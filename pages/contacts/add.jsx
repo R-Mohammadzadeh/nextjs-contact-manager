@@ -6,7 +6,7 @@ import validateToken from "@/utils/auth";
 
 const INITIAL_STATE = { firstName: '', lastName: '', age: '', phone: '', gender: '' };
 
-export default function AddContacts() {
+export default function AddContacts({userId}) {
   const [form, setForm] = useState(INITIAL_STATE);
   const [loading, setLoading] = useState(false);
   const inputRef = useRef();
@@ -47,6 +47,7 @@ return null
 
   const handleSubmit = async e => {
     e.preventDefault();
+    
     const error = validateForm(form)
     if(error) {
       toast.error(error)
@@ -55,10 +56,10 @@ return null
 
     setLoading(true);
     try {
-      const res = await fetch('/api/contact', {
+      const res = await fetch('/api/contacts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, age: Number(form.age) })
+        body: JSON.stringify({ ...form, age: Number(form.age) , userId })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Server error');
@@ -102,5 +103,5 @@ return null
 export async function getServerSideProps(context) {
   const payload = validateToken(context);
   if (!payload) return { redirect: { destination: '/auth/login', permanent: false } };
-  return { props: {} };
+  return { props: {userId : payload.userId} };
 }

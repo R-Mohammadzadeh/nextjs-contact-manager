@@ -43,7 +43,10 @@ export default async function handler(req, res) {
     // ================ METHOD NOT ALLOWED =================
     res.setHeader("Allow", ["GET", "DELETE", "PUT"]);
     return res.status(405).json({ message: `Method ${req.method} not allowed` });
-  } catch (error) {
+
+  }
+  
+  catch (error) {
     if (error.name === "ValidationError") {
       const messages = Object.values(error.errors).map(e => e.message);
       return res.status(422).json({ message: "Validation failed", messages });

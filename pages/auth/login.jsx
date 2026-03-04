@@ -19,6 +19,7 @@ export default function Login() {
 
   const loginHandlerBtn = async e => {
     e.preventDefault();
+    
     if (!formData.email || !formData.password)
       return toast.error("Please fill all fields");
 

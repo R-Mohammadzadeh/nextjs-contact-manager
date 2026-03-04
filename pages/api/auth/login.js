@@ -28,10 +28,11 @@ export default async function loginHandler(req, res) {
   if (!user || !(await compare(password, user.password || "")))
     return res.status(401).json({ message: "Invalid email or password!" });
 
+// generate token
   const token = jwt.sign(
-    { _id: user._id, email: user.email, role: user.role, firstName: user.firstName },
+    { _id: user._id, email: user.email, role: user.role, firstName: user.firstName , userId : user._id },
     process.env.JWT_SECRET,
-    { expiresIn: "24h" }
+    { expiresIn: "12h" }
   );
 
   res.setHeader(
@@ -41,7 +42,7 @@ export default async function loginHandler(req, res) {
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
       path: "/",
-      maxAge: 60 * 60 * 24,
+      maxAge: 60 * 60 * 12,
     })
   );
 

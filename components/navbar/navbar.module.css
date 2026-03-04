@@ -11,6 +11,8 @@
     background-color: var(--nav-bg);
     box-shadow: 0 4px 6px var(--shadow);
     color: var(--text-color);
+    text-wrap: nowrap;
+
 }
 
 
@@ -24,8 +26,9 @@
     display: flex;
     align-items: center;
     text-decoration: none;
-    color: #333;
+    color: #b4b1b1;
     transition: color 0.3s ease;
+    text-wrap: nowrap;
 }
 
 /* Styling der Icons innerhalb der Links */
@@ -33,6 +36,8 @@
     font-size: 25px;
     margin-right: 10px;
     vertical-align: sub;
+   
+
 }
 
 /* Aktiver Link-Status */
@@ -174,7 +179,7 @@ cursor: pointer;
 
 
 
-@media (max-width: 768px) {
+@media (max-width: 769px) {
   .hamburgerWrapper {
     display: block; 
     position: absolute;

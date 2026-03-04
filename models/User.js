@@ -1,6 +1,6 @@
 
 
-const { Schema, models, model } = require("mongoose");
+import { Schema, models, model } from "mongoose";
 
 
 
@@ -26,7 +26,8 @@ const UserSchema = new Schema ({
     unique : true,
     required : [true ,'Email is required'] ,
     lowercase : true ,
-    trim: true
+    trim: true ,
+    match: [/\S+@\S+\.\S+/, 'Please use a valid email address']
    },
 
    role : 
@@ -47,7 +48,8 @@ const UserSchema = new Schema ({
         validator : function(v) {
     // At least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character
       return  /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/.test(v);
-        }
+        },
+        message: 'Password must be strong (1 Uppercase, 1 Lowercase, 1 Number, 1 Special character)'
        }
     }    
 },

@@ -1,4 +1,6 @@
-const { Schema, models, model } = require("mongoose");
+
+
+import mongoose, { Schema, models, model } from "mongoose";
 
 
 
@@ -22,7 +24,7 @@ const ContactSchema = new Schema ({
    {
     type : Number ,
     min:[18 , 'Age must be at least 18.'] ,
-    max :[70 , 'Age must be at least 70.'] ,
+    max :[70 , 'Age must be at most 70.'] ,
     required : [true ,'age is required']
    },
 
@@ -38,7 +40,12 @@ const ContactSchema = new Schema ({
        required :[true , 'phone is required'] ,
        match : [/^[0-9]{10,20}$/ , 'The contact number must be between 10 and 20 digits.'] ,
        trim :true
-    }    
+    }   ,
+    userId : {
+        type :mongoose.Types.ObjectId ,
+        ref : 'User' ,
+        required :true
+    } 
 },
 {timestamps :true})
 
