@@ -40,8 +40,20 @@ export default async function handler(req, res) {
         .json({ message: "Contact updated successfully", data: updated });
     }
 
+    // ================= PATCH =================
+if(req.method ==='PATCH') {
+  const contact = await Contact.findById({_id})
+  if(!contact) return res.status(404).json({message : 'Contact not found'}) ;
+
+  
+  contact.likes = !contact.likes
+  await contact.save() ;
+  return res.status(200).json({message: 'Contact liked'})
+}
+
+
     // ================ METHOD NOT ALLOWED =================
-    res.setHeader("Allow", ["GET", "DELETE", "PUT"]);
+    res.setHeader("Allow", ["GET", "DELETE", "PUT" , "PATCH"]);
     return res.status(405).json({ message: `Method ${req.method} not allowed` });
 
   }

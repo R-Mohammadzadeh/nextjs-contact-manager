@@ -6,11 +6,9 @@ import { AiFillEdit } from "react-icons/ai";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 
 
-export default function ContactsInfo ({firstName , lastName , age , phone , gender ,_id , infoList , setInfoList}) {
+export default function ContactsInfo ({firstName , lastName , age , phone , gender ,_id , infoList , setInfoList , likes}) {
 
  const deleteHandler =  async (_id) => {
-if (!confirm("Are you sure you want to delete this contact?")) return;
-     
     try{
 const res = await fetch(`/api/contacts/${_id}` , {method : 'DELETE'})
 const data = await res.json()
@@ -29,6 +27,36 @@ setInfoList(filtered)
 toast.error("Server error")
  }
 }
+
+
+
+const likeHandler = async () => {
+    try{
+const res = await fetch(`/api/contacts/${_id}` , {method : 'PATCH'})
+const data = await res.json()
+
+if(!res.ok){
+    toast.error(data.message || 'Failed to Updated') 
+    return ;}
+
+
+toast.success(data.message || "Updated successfully")
+    // update UI
+const updateContact = infoList.map((it) => {
+    if(it._id == _id){
+        it.likes = !it.likes
+    }
+    return it
+})
+setInfoList(updateContact)
+}
+ catch(error){
+toast.error("Server error")
+ }
+}
+
+
+
 
     return (
         <>
@@ -66,7 +94,7 @@ toast.error("Server error")
         </div>
 
          <div>
-        <MdOutlineFavoriteBorder />
+        <MdOutlineFavoriteBorder onClick={() => likeHandler(_id)} fill={likes ? 'red' : 'black'} />
          </div>
 
             </div>

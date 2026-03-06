@@ -5,20 +5,22 @@ const {gen , search} = queryParams ;
 
 // Basic filter (security: always only user's own contacts)
 const filter = {userId} ;
-
+const gender = ['male' , 'female' ,'others'] ;
 // Filter by gender
-if(gen && gen !== 'all' && gen !== '') {
+if(gen && gender.includes(gen)) {
     filter.gender = gen ;
 }
 
 // Filter by search (first name, last name, phone number)
 
 if(search && search.trim() !== ''){
-    const safeSearch = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") ;
+    // Escape special regex characters to prevent query injection or errors
+    const safeSearch = search.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&") ;
+    const searchRegex = new RegExp(safeSearch , 'i')
     filter.$or = [
-        {firstName : {$regex : safeSearch , $options : 'i'}},
-        {lastName : {$regex : safeSearch , $options : 'i'}},
-        {phone : {$regex : safeSearch , $options : 'i'}},
+        {firstName :searchRegex },
+        {lastName :searchRegex },
+        {phone : searchRegex},
     ]
 }
 return filter

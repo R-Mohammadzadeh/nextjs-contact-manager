@@ -41,6 +41,10 @@ const ContactSchema = new Schema ({
        match : [/^[0-9]{10,20}$/ , 'The contact number must be between 10 and 20 digits.'] ,
        trim :true
     }   ,
+    likes :{
+        type : Boolean ,
+        default : false 
+    },
     userId : {
         type :mongoose.Types.ObjectId ,
         ref : 'User' ,
