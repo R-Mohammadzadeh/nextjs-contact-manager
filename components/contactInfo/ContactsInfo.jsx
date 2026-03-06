@@ -1,14 +1,16 @@
 import Link from 'next/link'
 import styles from './ContactsInfo.module.css'
 import toast, { Toaster } from 'react-hot-toast'
-import { MdDeleteForever } from "react-icons/md";
+import { MdDeleteForever, MdFavorite } from "react-icons/md";
 import { AiFillEdit } from "react-icons/ai";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 
 
 export default function ContactsInfo ({firstName , lastName , age , phone , gender ,_id , infoList , setInfoList , likes}) {
-
- const deleteHandler =  async (_id) => {
+ 
+ 
+    // DELETE CONTACT
+ const deleteHandler =  async () => {
     try{
 const res = await fetch(`/api/contacts/${_id}` , {method : 'DELETE'})
 const data = await res.json()
@@ -20,7 +22,7 @@ if(!res.ok){
 }
 toast.success(data.message || "Deleted successfully")
     // update UI
-const filtered = infoList.filter(item => item._id != _id)
+const filtered = infoList.filter(item => item._id !== _id)
 setInfoList(filtered)
 }
  catch(error){
@@ -29,7 +31,7 @@ toast.error("Server error")
 }
 
 
-
+  // LIKE CONTACT
 const likeHandler = async () => {
     try{
 const res = await fetch(`/api/contacts/${_id}` , {method : 'PATCH'})
@@ -42,12 +44,10 @@ if(!res.ok){
 
 toast.success(data.message || "Updated successfully")
     // update UI
-const updateContact = infoList.map((it) => {
-    if(it._id == _id){
-        it.likes = !it.likes
-    }
-    return it
-})
+const updateContact = infoList.map((item) => 
+   item._id === _id ? {...item , likes : !item.likes } : item
+    
+)
 setInfoList(updateContact)
 }
  catch(error){
@@ -84,7 +84,7 @@ toast.error("Server error")
             </div>
             <div className={styles.icons}>
             <div>
-                <MdDeleteForever onClick={ () => deleteHandler(_id)} />
+                <MdDeleteForever onClick={ deleteHandler} />
             </div>
 
         <div>
@@ -93,10 +93,10 @@ toast.error("Server error")
         </Link>
         </div>
 
-         <div>
-        <MdOutlineFavoriteBorder onClick={() => likeHandler(_id)} fill={likes ? 'red' : 'black'} />
-         </div>
-
+        {
+        likes ? <MdFavorite onClick={likeHandler} fill="red" /> 
+        :<MdOutlineFavoriteBorder onClick={likeHandler} fill="black" /> 
+        }
             </div>
         </div>
         
