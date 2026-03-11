@@ -48,6 +48,6 @@ export default async function loginHandler(req, res) {
 
   return res.status(200).json({
     message: "Success",
-    user: { firstName: user.firstName, lastName: user.lastName, role: user.role },
+    payload: { firstName: user.firstName, lastName: user.lastName, role: user.role },
   });
 }

@@ -9,9 +9,10 @@ export default function handler(req, res) {
     serialize("token", "", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "lax",
       path: "/",
       expires: new Date(0),
+      maxAge: 0,
     })
   );
 

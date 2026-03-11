@@ -17,18 +17,27 @@ const [isOpen , setIsOpen] = useState(false)
 
 
 
-  useEffect(() => {
+ useEffect(() => {
     let mounted = true;
 
     (async () => {
       try {
         const res = await fetch("/api/auth/status");
         const data = await res.json();
+        
         if (!mounted) return;
 
-        setIsAuth(res.status === 200);
-        setUser(res.status === 200 ? data.user : null);
-      } catch {
+        // Check if authentication was successful
+        // We look for 'payload' as defined in your API
+        if (res.status === 200 && data.payload) {
+          setIsAuth(true);
+          setUser(data.payload); 
+        } else {
+          setIsAuth(false);
+          setUser(null);
+        }
+      } catch (error) {
+        console.error("Auth initialization failed:", error);
         if (mounted) {
           setIsAuth(false);
           setUser(null);
@@ -40,7 +49,6 @@ const [isOpen , setIsOpen] = useState(false)
 
     return () => (mounted = false);
   }, []);
-
   const contextValue = useMemo(
     () => ({ isAuth, setIsAuth, user, setUser, isLoading , setIsOpen , isOpen }),
     [isAuth, user, isLoading , isOpen]

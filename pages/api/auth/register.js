@@ -13,25 +13,58 @@ const check = v.compile({
 });
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).json({ message: "Method not allowed" });
+  if (req.method !== "POST") {
+    return res.status(405).json({ message: "Method not allowed" });
+  }
 
   try {
+    // Ensure database connection is established
     await connectDB();
+
     const validation = check(req.body);
-    if (validation !== true) return res.status(422).json({ message: validation[0].message });
+    if (validation !== true) {
+      return res.status(422).json({ message: validation[0].message });
+    }
 
     let { firstName, lastName, email, password } = req.body;
     email = email.trim().toLowerCase();
 
-    if (await User.findOne({ email })) return res.status(422).json({ message: "E-Mail already exists!" });
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(422).json({ message: "E-Mail already exists!" });
+    }
 
-    const role = (await User.estimatedDocumentCount()) === 0 ? "admin" : "user";
+    // Set role: first user becomes admin, others are users
+    const userCount = await User.estimatedDocumentCount();
+    const role = userCount === 0 ? "admin" : "user";
+    
+    // Hash password before saving
     const hashedPassword = await hash(password, 12);
 
-    const user = await User.create({ firstName, lastName, email, password: hashedPassword, role });
-    return res.status(201).json({ message: "Created!", email: user.email });
+    const user = await User.create({ 
+      firstName, 
+      lastName, 
+      email, 
+      password: hashedPassword, 
+      role 
+    });
+
+   return res.status(201).json({ 
+  message: "User Created Successfully!", 
+  payload: { 
+    firstName: user.firstName, 
+    lastName: user.lastName, 
+    role: user.role 
+  } 
+});
 
   } catch (e) {
-    return res.status(500).json({ message: "Server Error", error: e.message });
+    // Log the actual error to Vercel console for debugging
+    console.error("Registration Error:", e);
+    return res.status(500).json({ 
+      message: "Server Error", 
+      error: e.message // This will show you exactly what failed (e.g., Auth failed, Timeout, etc.)
+    });
   }
 }

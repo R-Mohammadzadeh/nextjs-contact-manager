@@ -35,7 +35,7 @@ export default function Login() {
 
       toast.success(data.message);
       setIsAuth(true);
-      setUser?.(data.user);
+      setUser?.(data.user || data.payload);
       router.replace("/dashboard");
     } catch (err) {
       toast.error(err.message);
@@ -78,9 +78,15 @@ export default function Login() {
 }
 
 // ================= SERVER SIDE =================
-
 export async function getServerSideProps(context) {
-  return validateToken(context)
-    ? { redirect: { destination: "/dashboard", permanent: false } }
-    : { props: {} };
+  // Pass the req object specifically
+  const user = validateToken({ req: context.req });
+
+  if (user) {
+    return {
+      redirect: { destination: "/dashboard", permanent: false },
+    };
+  }
+
+  return { props: {} };
 }
