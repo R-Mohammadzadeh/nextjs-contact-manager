@@ -20,6 +20,13 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
 }
 
 html,
@@ -36,6 +43,27 @@ a {
   cursor: pointer;
 }
 
-button {
+button, input, select, textarea {
   font-family: inherit;
+  outline: none;
+  border: 1px solid var(--shadow);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  background-color: var(--card-bg);
+  color: var(--foreground);
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  filter: brightness(1.1);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.overflow-hidden {
+  overflow: hidden;
 }
