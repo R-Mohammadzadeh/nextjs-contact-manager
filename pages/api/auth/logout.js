@@ -13,7 +13,6 @@ export default function handler(req, res) {
       sameSite: "strict", 
       expires: new Date(0), // Set the cookie to expire immediately
       path: "/",
-      domain: "localhost", 
   
     })
   );
