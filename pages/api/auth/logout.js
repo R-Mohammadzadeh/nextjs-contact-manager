@@ -9,8 +9,8 @@ export default function handler(req, res) {
     "Set-Cookie",
     serialize("token", "", {
       httpOnly: true,
-      secure:true,
-      sameSite: "lax", 
+      secure:true && process.env.NODE_ENV === "production",
+      sameSite: "Lax", 
       expires: new Date(0), // Set the cookie to expire immediately
       path: "/",
       
