@@ -6,13 +6,16 @@ export default function handler(req, res) {
 
   res.setHeader(
     "Set-Cookie",
-    serialize("customerToken", "", {
+    serialize("token", "", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      sameSite: "strict",
       path: "/",
       expires: new Date(0),
       maxAge: 0,
+    }),
+    serialize("customerToken", "", {
+      expires: new Date(0),
     })
   );
 
