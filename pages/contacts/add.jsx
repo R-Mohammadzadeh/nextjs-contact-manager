@@ -103,5 +103,8 @@ return null
 export async function getServerSideProps(context) {
   const payload = validateToken(context);
   if (!payload) return { redirect: { destination: '/auth/login', permanent: false } };
-  return { props: {userId : payload.userId} };
+  return { 
+    props :{
+    userId : payload._id || payload.userId || null
+  } };
 }
