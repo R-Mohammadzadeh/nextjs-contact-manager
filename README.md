@@ -25,3 +25,43 @@ Ich habe das Frontend mit spezifischen **Media Queries** optimiert, um eine kons
 1. Repository klonen:
    ```bash
    git clone [ git clone https://github.com/R-Mohammadzadeh/nextjs-contact-manager.git]
+
+
+2. Abhängigkeiten installieren:
+   ```bash 
+   npm install
+   ```
+3. Umgebungsvariablen konfigurieren:
+   Erstellen Sie eine `.env.local` Datei im Stammverzeichnis und fügen Sie Ihre MongoDB Atlas Verbindungszeichenfolge hinzu:
+   ```env
+   MONGODB_URI=your_mongodb_atlas_connection_string
+   ```
+4. Entwicklungsserver starten:
+   ```bash
+   npm run dev
+   ```
+## 🌐 Deployment
+Das Projekt ist auf **Vercel** gehostet und kann unter folgendem Link live angesehen werden: [Live Demo](https://nextjs-contact-manager.vercel.app/)
+## 📂 Projektstruktur
+```my-app/
+├── components/          # Wiederverwendbare React-Komponenten 
+├── pages/               # Next.js Seiten (inkl. API-Routen)
+├── public/              # Statische Dateien (Bilder, Icons)
+├── styles/              # CSS Module Dateien
+├── .env.local           # Umgebungsvariablen
+├── package.json         # Projektabhängigkeiten und Skripte
+├── README.md            # Projektbeschreibung und Anweisungen
+```
+## 🤝 Beitragende
+* **[Ramin Mohammadzadeh](https://github.com/R-Mohammadzadeh)** - Hauptentwickler und Projektleiter
+## 📄 Lizenz
+Dieses Projekt ist unter der MIT-Lizenz lizenziert - siehe die [LICENSE](LICENSE) Datei für Details.
+## 📞 Kontakt
+Bei Fragen oder Anmerkungen zum Projekt können Sie mich gerne kontaktieren:
+* E-Mail:reza203393@yahoo.de
+* GitHub: [R-Mohammadzadeh](https://github.com/R-Mohammadzadeh)
+Vielen Dank für Ihr Interesse an meinem Projekt!
+
+
+
+
