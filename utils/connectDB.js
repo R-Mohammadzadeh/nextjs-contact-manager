@@ -1,5 +1,4 @@
 
-
 import mongoose from "mongoose";
 // MONGODB_URI should be defined in .env.local file at the root of the project
 const MONGODB_URI = process.env.MONGODB_URI;
