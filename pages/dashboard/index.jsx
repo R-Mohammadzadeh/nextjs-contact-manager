@@ -13,7 +13,7 @@ export default function Dashboard({ user }) {
       const res = await fetch("/api/auth/logout");
       if (res.ok) {
         // Redirect to login page after successful logout
-       window.location.href = "/auth/login";
+       router.replace("/auth/login")
       }
     } catch (error) {
       console.error("Logout failed:", error);
