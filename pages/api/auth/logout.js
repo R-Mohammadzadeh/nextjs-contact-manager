@@ -9,12 +9,13 @@ export default function handler(req, res) {
     "Set-Cookie",
     serialize("token", "", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict", 
+      secure:true,
+      sameSite: "lax", 
       expires: new Date(0), // Set the cookie to expire immediately
       path: "/",
-  
+      
     })
   );
   return res.status(200).json({ message: "Logged out successfully" });
+  
 }

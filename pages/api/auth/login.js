@@ -39,8 +39,8 @@ export default async function loginHandler(req, res) {
     "Set-Cookie",
     serialize("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production" ,
-      sameSite: "strict",
+      secure: true && process.env.NODE_ENV === "production",
+      sameSite: "lax ", // Note the trailing space
       path: "/",
       maxAge: 60 * 60 * 12,
     })
