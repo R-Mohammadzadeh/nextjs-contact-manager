@@ -10,8 +10,8 @@ export default function handler(req, res) {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
-    maxAge: -1, 
-    path: "/",
+   expires: new Date(0), // Set the cookie to expire immediately
+   path: "/", // Ensure the cookie is cleared for the entire site
   });
 
   res.setHeader("Set-Cookie", serialized);
