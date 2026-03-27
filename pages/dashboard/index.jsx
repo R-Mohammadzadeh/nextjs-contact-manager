@@ -6,7 +6,7 @@ import { useRouter } from "next/router"; // Import useRouter
 
 export default function Dashboard({ user }) {
 
-
+const router = useRouter(); // Initialize useRouter
   // Function to handle user logout
   const logoutHandler = async () => {
     try {
