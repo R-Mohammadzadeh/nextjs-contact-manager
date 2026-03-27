@@ -41,7 +41,7 @@ Ich habe das Frontend mit spezifischen **Media Queries** optimiert, um eine kons
    npm run dev
    ```
 ## 🌐 Deployment
-Das Projekt ist auf **Vercel** gehostet und kann unter folgendem Link live angesehen werden: [Live Demo](https://nextjs-contact-manager.vercel.app/)
+Das Projekt ist auf **Vercel** gehostet und kann unter folgendem Link live angesehen werden: [Live Demo](https://nextjs-contact-manager.vercel.app)
 ## 📂 Projektstruktur
 ```my-app/
 ├── components/          # Wiederverwendbare React-Komponenten 
