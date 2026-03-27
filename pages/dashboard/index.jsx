@@ -2,7 +2,7 @@ import styles from "@/styles/dashboard.module.css";
 import connectDB from "@/utils/connectDB";
 import User from "@/models/User";
 import validateToken from "@/utils/auth";
-import { useRouter } from "next/router"; // Import useRouter
+// import { useRouter } from "next/router"; // Import useRouter
 
 export default function Dashboard({ user }) {
 
@@ -13,7 +13,8 @@ const router = useRouter(); // Initialize useRouter
       const res = await fetch("/api/auth/logout");
       if (res.ok) {
         // Redirect to login page after successful logout
-       router.replace("/auth/login")
+      //  router.replace("/auth/login")
+      window.location.href = "/auth/login";
       }
     } catch (error) {
       console.error("Logout failed:", error);
