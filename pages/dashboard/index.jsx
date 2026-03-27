@@ -14,16 +14,21 @@ export default function Dashboard({ user }) {
   // Unified logout function
   const logoutHandler = async () => {
     try {
-      const res = await fetch("/api/auth/logout");
+      const res = await fetch("/api/auth/logout" , {
+        method: "POST",
+        headers: {
+          "Cache-Control": "no-cache",
+        },
+      });
       if (res.ok) {
         // Clear global authentication state
         setIsAuth(false);
         setUser(null);
-        
-        // Redirect to login page
-        router.replace("/auth/login");
         toast.success("Logged out successfully");
         
+       await router.replace("/auth/login");
+      }else {
+        toast.error("server error during logout process ");
       }
     } catch (error) {
       console.error("Logout failed:", error);
