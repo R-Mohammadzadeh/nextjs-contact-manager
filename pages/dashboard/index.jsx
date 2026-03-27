@@ -6,7 +6,7 @@ import validateToken from "@/utils/auth";
 
 export default function Dashboard({ user }) {
 
-const router = useRouter(); // Initialize useRouter
+// const router = useRouter(); // Initialize useRouter
   // Function to handle user logout
   const logoutHandler = async () => {
     try {
