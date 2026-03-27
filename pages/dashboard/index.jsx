@@ -5,7 +5,7 @@ import validateToken from "@/utils/auth";
 import { useRouter } from "next/router"; // Import useRouter
 
 export default function Dashboard({ user }) {
-  const router = useRouter();
+
 
   // Function to handle user logout
   const logoutHandler = async () => {
