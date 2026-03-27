@@ -2,24 +2,32 @@ import styles from "@/styles/dashboard.module.css";
 import connectDB from "@/utils/connectDB";
 import User from "@/models/User";
 import validateToken from "@/utils/auth";
-import { useRouter } from "next/router"; // Import useRouter
+import { useRouter } from "next/router";
+import { useContext } from "react"; // Added useContext
+import { AppContext } from "@/pages/_app"; // Added AppContext
+import toast from "react-hot-toast";
 
 export default function Dashboard({ user }) {
+  const router = useRouter();
+  const { setIsAuth, setUser } = useContext(AppContext); // Use global state
 
-const router = useRouter(); // Initialize useRouter
-  // Function to handle user logout
+  // Unified logout function
   const logoutHandler = async () => {
     try {
-      const res = await fetch("/api/auth/logout" , {
-      credentials: "include", // Ensure cookies are sent with the request
-      });
+      const res = await fetch("/api/auth/logout");
       if (res.ok) {
-        // Redirect to login page after successful logout
-       router.replace("/auth/login")
-      
+        // Clear global authentication state
+        setIsAuth(false);
+        setUser(null);
+        
+        toast.success("Logged out successfully");
+        
+        // Redirect to login page
+        router.replace("/auth/login");
       }
     } catch (error) {
       console.error("Logout failed:", error);
+      toast.error("Logout failed");
     }
   };
 
@@ -30,7 +38,6 @@ const router = useRouter(); // Initialize useRouter
         <ul>
           <li>Profil</li>
           <li>Einstellungen</li>
-          {/* Add onClick event here */}
           <li className={styles.logout} onClick={logoutHandler} style={{ cursor: 'pointer' }}>
             Logout
           </li>
@@ -59,15 +66,14 @@ const router = useRouter(); // Initialize useRouter
   );
 }
 
-// ================= SSR AUTH =================
-// Your existing getServerSideProps is perfect as it is!
+// Server-side authentication
 export async function getServerSideProps(context) {
   const payload = validateToken(context);
-  if (!payload)
+  if (!payload) {
     return { redirect: { destination: "/auth/login", permanent: false } };
+  }
 
   await connectDB();
-
   const user = await User.findById(payload._id).select("firstName lastName role").lean();
 
   const finalUser = user 

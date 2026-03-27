@@ -12,37 +12,44 @@ const check = new Validator().compile({
 });
 
 export default async function loginHandler(req, res) {
-  if (req.method !== "POST")
+  if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed" });
+  }
 
+  // Connect to MongoDB
   await connectDB();
 
+  // Validate request body
   const validation = check(req.body);
-  if (validation !== true)
+  if (validation !== true) {
     return res.status(422).json({ message: "Validation failed", errors: validation });
+  }
 
   let { email, password } = req.body;
   email = email.trim().toLowerCase();
 
+  // Check if user exists and password is correct
   const user = await User.findOne({ email }).select("+password firstName lastName role email");
-  if (!user || !(await compare(password, user.password || "")))
+  if (!user || !(await compare(password, user.password || ""))) {
     return res.status(401).json({ message: "Invalid email or password!" });
+  }
 
-// generate token
+  // Generate JWT Token
   const token = jwt.sign(
-    { _id: user._id, email: user.email, role: user.role, firstName: user.firstName , userId : user._id },
+    { _id: user._id, email: user.email, role: user.role, firstName: user.firstName },
     process.env.JWT_SECRET,
     { expiresIn: "12h" }
   );
 
+  // Set Cookie with correct SameSite value (No extra spaces)
   res.setHeader(
     "Set-Cookie",
     serialize("token", token, {
       httpOnly: true,
-      secure: true && process.env.NODE_ENV === "production",
-      sameSite: "Lax" , // Note the trailing space
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Lax",
       path: "/",
-      maxAge: 60 * 60 * 12,
+      maxAge: 60 * 60 * 12, // 12 hours
     })
   );
 
