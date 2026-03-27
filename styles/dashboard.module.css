@@ -145,3 +145,73 @@
 @media (prefers-color-scheme: dark) {
   /* You can add dark mode overrides here later */
 }
+
+
+/* Mobile and Tablet Responsive */
+@media (max-width: 768px) {
+  .wrapper {
+    flex-direction: column; /* Sidebar goes to top or hides */
+  }
+
+  .sidebar {
+    width: 100%;
+    padding: 1rem;
+    height: auto;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+
+  .sidebarLogo h2 {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+
+  .navLinks {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+  }
+
+  .navLinks li {
+    margin-bottom: 0;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    flex: 1;
+    text-align: center;
+  }
+
+  .content {
+    padding: 1rem;
+  }
+
+  .header {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+    padding: 1rem;
+  }
+
+  .clockDisplay {
+    font-size: 1.5rem;
+    width: 100%;
+    text-align: center;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr; /* Cards stack vertically */
+  }
+
+  .card {
+    padding: 1.2rem;
+  }
+}
+
+/* Extra small devices (Phones) */
+@media (max-width: 480px) {
+  .welcomeText h1 {
+    font-size: 1.4rem;
+  }
+  
+  .navLinks {
+    flex-wrap: wrap;
+  }
+}
