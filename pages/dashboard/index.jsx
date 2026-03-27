@@ -10,10 +10,13 @@ const router = useRouter(); // Initialize useRouter
   // Function to handle user logout
   const logoutHandler = async () => {
     try {
-      const res = await fetch("/api/auth/logout");
+      const res = await fetch("/api/auth/logout" , {
+        method: "POST",
+      credentials: "include", // Ensure cookies are sent with the request
+      });
       if (res.ok) {
         // Redirect to login page after successful logout
-       router.push("/auth/login")
+       router.replace("/auth/login")
       
       }
     } catch (error) {
