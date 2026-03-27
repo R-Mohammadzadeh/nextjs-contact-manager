@@ -20,10 +20,10 @@ export default function Dashboard({ user }) {
         setIsAuth(false);
         setUser(null);
         
-        toast.success("Logged out successfully");
-        
         // Redirect to login page
         router.replace("/auth/login");
+        toast.success("Logged out successfully");
+        
       }
     } catch (error) {
       console.error("Logout failed:", error);
