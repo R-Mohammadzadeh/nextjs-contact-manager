@@ -53,7 +53,7 @@ Das Projekt ist auf **Vercel** gehostet und kann unter folgendem Link live anges
 ├── README.md            # Projektbeschreibung und Anweisungen
 ```
 ## 🤝 Beitragende
-* **[Ramin Mohammadzadeh](https://github.com/R-Mohammadzadeh)** - Hauptentwickler und Projektleiter
+* **[Reza Mohammadzadeh](https://github.com/R-Mohammadzadeh)** - Hauptentwickler und Projektleiter
 ## 📄 Lizenz
 Dieses Projekt ist unter der MIT-Lizenz lizenziert - siehe die [LICENSE](LICENSE) Datei für Details.
 ## 📞 Kontakt
