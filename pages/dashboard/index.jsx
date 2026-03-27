@@ -11,7 +11,6 @@ const router = useRouter(); // Initialize useRouter
   const logoutHandler = async () => {
     try {
       const res = await fetch("/api/auth/logout" , {
-        method: "POST",
       credentials: "include", // Ensure cookies are sent with the request
       });
       if (res.ok) {
