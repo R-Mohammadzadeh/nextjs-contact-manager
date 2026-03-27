@@ -1,7 +1,7 @@
 
 
 import mongoose from "mongoose";
-
+// MONGODB_URI should be defined in .env.local file at the root of the project
 const MONGODB_URI = process.env.MONGODB_URI;
 if (!MONGODB_URI) throw new Error("Define MONGODB_URI in .env.local");
 
@@ -13,7 +13,8 @@ export default async function connectDB() {
   if (!cached.promise) {
     cached.promise = mongoose.connect(MONGODB_URI, { bufferCommands: false });
   }
-
+ 
   cached.conn = await cached.promise;
   return cached.conn;
+
 }
